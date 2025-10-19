@@ -23,6 +23,7 @@ const SignUp = () => {
         error: '',
         code: '',
     })
+    const [showSuccessModal ,setShowSuccessModal] = useState(false)
 
      const onSignUpPress = async () => {
     if (!isLoaded) return
@@ -128,7 +129,7 @@ const SignUp = () => {
 
                 {/* Verification Modal */}
                 <ReactNativeModal isVisible={verification.state === 'pending'}
-                onModalHide={()=> setVerification({...verification, state: 'success'})}
+                onModalHide={()=> {if(verification.state === 'success') setShowSuccessModal(true)}}
                 >
                   <View className='bg-white px-7 py-9 rounded-2xl min-h-[300px]'>
                     <Text className="text-2xl font-JakartaExtraBold mb-2">Verification</Text>
@@ -157,7 +158,7 @@ const SignUp = () => {
                   </View>
                 </ReactNativeModal>
 
-                <ReactNativeModal isVisible={verification.state === 'success'}>
+                <ReactNativeModal isVisible={showSuccessModal}>
                     <View className='bg-white px-7 py-9 rounded-2xl min-h-[300px]'>
                         <Image source={images.check} className='w-[110px] h-[110px] mx-auto my-5' />
                         <Text className='text-3xl font-JakartaBold text-center'>
@@ -167,7 +168,10 @@ const SignUp = () => {
                         <Text className='text-base text-gray-400 font-Jakarta text-center mt-2'>You have successfully verified your account.</Text>
 
                         <CustomButton title="Browse Home" 
-                            onPress={() => router.replace('/(root)/(tabs)/home')}
+                            onPress={() => {
+                                setShowSuccessModal(false)
+                                router.push('/(root)/(tabs)/home')
+                            }}
                             className='mt-5'
                         />
                     </View>
