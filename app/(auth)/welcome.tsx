@@ -43,7 +43,7 @@ const Onboarding = () => {
 
             <CustomButton 
                 title={isLastSlice ? "Get Started" : "Next"} className="w-10/12 my-10 "
-                onPress={() => isLastSlice ? router.replace('/(auth)/sign-in') : swiperRef.current?.scrollBy(1)}
+                onPress={() => isLastSlice ? router.replace('/(auth)/sign-up') : swiperRef.current?.scrollBy(1)}
             />
         </SafeAreaView>
     );

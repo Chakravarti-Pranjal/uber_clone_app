@@ -45,7 +45,7 @@ const CustomButton = ({
   return (
     <TouchableOpacity
       onPress={onPress}
-      className={`w-full rounded-full flex flex-row py-2 justify-center items-center shadow-md shadow-neutral-400/70
+      className={`w-full rounded-full flex flex-row py-3 justify-center items-center shadow-md shadow-neutral-400/70
         ${getBgVariantStyle(bgVariant)}
         ${className}`}
       {...props}
