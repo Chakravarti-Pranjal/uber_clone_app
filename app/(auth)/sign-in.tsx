@@ -5,7 +5,7 @@ import { icons, images } from '@/constants';
 import { useSignIn } from '@clerk/clerk-expo';
 import { Link, useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Image, ScrollView, Text, View } from 'react-native';
+import { Alert, Image, ScrollView, Text, View } from 'react-native';
 
 
 const SignIn = () => {
@@ -38,6 +38,7 @@ const SignIn = () => {
       }
     } catch (err) {
       console.error(JSON.stringify(err, null, 2))
+      Alert.alert('Error', err.errors[0].longMessage);
     }
   }
 

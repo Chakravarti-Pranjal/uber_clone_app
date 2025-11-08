@@ -1,8 +1,12 @@
-import GoogleTextInput from '@/components/GoogleTextInput'
+import LocationTextInput from '@/components/LocationTextInput'
 import Map from '@/components/Map'
 import RideCard from '@/components/RideCard'
 import { icons, images } from '@/constants'
+import { useLocationStore } from '@/store'
 import { useUser } from '@clerk/clerk-expo'
+import * as Location from 'expo-location'
+import { router } from 'expo-router'
+import { useEffect, useState } from 'react'
 import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -106,16 +110,50 @@ const recentRides = [
 ]
 
 export default function Page() {
+  const {setUserLocation, setDestinationLocation} = useLocationStore();
   const { user } = useUser()
   const loading = false;
+
+  const [hasPermissions, setHasPermissions] = useState(false);
 
   const handleSignOut = () => {
 
   }
 
-  const handleDestinationPress = () => {
+  const handleDestinationPress = (location: {latitude: number; longitude: number; address: string}) => {
+    setDestinationLocation(location);
 
+    router.push("/(root)/find-ride");
   }
+
+  useEffect(() => {
+    const requestLocation = async () => {
+      let {status} = await Location.requestForegroundPermissionsAsync();
+
+      if(status !== 'granted'){
+        setHasPermissions(false);
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync();
+
+      const address = await Location.reverseGeocodeAsync({
+        latitude: location.coords?.latitude,
+        longitude: location.coords?.longitude,
+      })
+
+      const first = Array.isArray(address) && address.length > 0 ? address[0] : null;
+      const addressString = first ? `${first.name || ''}${first.region ? `, ${first.region}` : ''}` : 'Unknown location';
+
+      setUserLocation({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        address: addressString,
+      })
+    }
+
+    requestLocation();
+  },[])
 
   return (
     <SafeAreaView>
@@ -154,7 +192,7 @@ export default function Page() {
             </View>
 
             {/* Google Text Input*/}
-            <GoogleTextInput
+            <LocationTextInput
               icon={icons.search}
               containerStyle='bg-white shadow-md shadow-neutral-300'
               handlePress={handleDestinationPress}

@@ -22,7 +22,12 @@
         "foregroundImage": "./assets/images/adaptive-icon.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyB4xuQb7YoDHT17QMQb6Rhaqcc_Sgpcds"
+        }
+      }
     },
     "web": {
       "output": "server",
