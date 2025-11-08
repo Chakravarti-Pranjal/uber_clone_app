@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
-const drivers = [
+export const drivers = [
     {
         "id": "1",
         "first_name": "James",
@@ -62,6 +62,9 @@ const Map = () => {
     useEffect(() => {
         const defaultLat = 28.6139;
         const defaultLng = 77.2090;
+
+        // TODO - Remove
+        setDrivers(drivers)
         
         const currentLat = userLatitude || defaultLat;
         const currentLng = userLongitude || defaultLng;

@@ -36,9 +36,12 @@ const SignIn = () => {
         // complete further steps.
         console.error(JSON.stringify(signInAttempt, null, 2))
       }
-    } catch (err) {
-      console.error(JSON.stringify(err, null, 2))
-      Alert.alert('Error', err.errors[0].longMessage);
+    } catch (err: any) {
+      console.error('Sign in error:', err);
+      // Normalize error message shapes (Clerk / network / unknown)
+      const message =
+        err?.errors?.[0]?.longMessage || err?.message || JSON.stringify(err) || 'An unexpected error occurred';
+      Alert.alert('Error', String(message));
     }
   }
 
